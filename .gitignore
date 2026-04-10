@@ -2,4 +2,4 @@ __pychache__/
 .streamlit/secrets.toml
 .devcontainer
 .vscode/
-.testing/
+.testing
