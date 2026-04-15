@@ -3,3 +3,4 @@ __pychache__/
 .devcontainer
 .vscode/
 .testing/
+cogs/__pycache__

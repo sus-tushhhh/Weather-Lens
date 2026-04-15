@@ -2,7 +2,7 @@ import streamlit as st
 import json
 from cogs.weather_api import Weather
 
-st.set_page_config(page_title='Weather Lens', layout='wide')
+st.set_page_config(page_title='Weather Lens', layout='centered')
 st.title('🌦️ Weather Lens | Forecast at a Glance')
 st.subheader('In Development')
 
@@ -25,5 +25,5 @@ st.selectbox(
 )
 
 
-if obj:=st.session_state.get('Weather'):
+if obj:=st.session_state.get('weather_data'):
     st.write(json.dumps(obj.location, indent=4))
