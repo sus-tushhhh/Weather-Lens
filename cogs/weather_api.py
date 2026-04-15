@@ -2,6 +2,7 @@ import json
 import httpx
 import streamlit as st
 from datetime import datetime
+import base64
 
 class Weather:
     def __init__(self, query:str):
@@ -12,6 +13,7 @@ class Weather:
             'q'   : query 
         }
         
+
     def get_response(self):
         try:
             self.response : dict = httpx.get(url=self.url, params=self.params, timeout=10).json()
@@ -35,9 +37,48 @@ class Weather:
             return False
 
 
+    @staticmethod
+    def get_base_locations():
+        with open('resources/base_locations.json', 'r') as f:
+            return json.load(f)
+
+
+    def __get_path_of_bg(self, fp: str):
+        with open(fp, "rb") as f:
+            data = f.read()
+            encoded = base64.b64encode(data)
+            return  "data:image/png;base64," + encoded.decode("utf-8")
+
+
+    def get_bg_image(self, text: str = None):
+        if not text:
+            text = self.current.get('condition').get('text')
+
+        text = text.lower()
+
+        if 'rain' in text:
+            fp = r'resources/rain.png'
+        elif any([i in text for i in ['sunny', 'clear']]):
+            fp = r'resources/sunny.png'
+        elif any([i in text for i in ['cloudy', 'overcast']]):
+            fp = r'resources/cloudy.png'
+        elif 'fog' in text:
+            fp = r'resources/fog.png'
+        else:
+            return None
+        
+        return self.__get_path_of_bg(fp)
+        
+
+    def get_hourly_bg_images(self):
+        l = []
+        for i in self.hourly:
+            l.append(self.get_bg_image(i.get('condition').get('text')))
+        return l
+
 
 if __name__ == '__main__':
     x = Weather("Delhi")
-    if x.get_response():
-        for i, j in x.__dict__.items() :
-            print(i, j)
+    x.get_response()
+    print(x.current.get('condition').get('text'))
+    print(x.get_bg_image())
