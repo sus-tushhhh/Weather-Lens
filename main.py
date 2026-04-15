@@ -22,7 +22,8 @@ st.selectbox(
     options   = get_base_locations(),
     on_change = load_weather,
     key       = 'location',
-    index     = None
+    index     = None,
+    accept_new_options = True
 )
 
 
