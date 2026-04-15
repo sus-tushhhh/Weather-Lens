@@ -56,7 +56,7 @@ class Weather:
 
         text = text.lower()
 
-        if 'rain' in text:
+        if any([i in text for i in ['rain', 'drizzle']]):
             fp = r'resources/rain.png'
         elif any([i in text for i in ['sunny', 'clear']]):
             fp = r'resources/sunny.png'
