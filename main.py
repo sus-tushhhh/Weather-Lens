@@ -31,7 +31,7 @@ with left :
         accept_new_options = True
     )
 
-
+with right:
     if obj:=st.session_state.get('weather_data'):
         if obj.response.get('error'):
             st.error('''Location not found please add state and/or country with it.
