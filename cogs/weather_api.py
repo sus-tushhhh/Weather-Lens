@@ -62,7 +62,7 @@ class Weather:
             fp = r'resources/sunny.png'
         elif any([i in text for i in ['cloudy', 'overcast']]):
             fp = r'resources/cloudy.png'
-        elif 'fog' in text:
+        elif any([i in text for i in ['mist', 'fog']]):
             fp = r'resources/fog.png'
         else:
             return None
