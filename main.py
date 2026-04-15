@@ -21,7 +21,8 @@ st.selectbox(
     label     = 'Enter a city, state or country',
     options   = get_base_locations(),
     on_change = load_weather,
-    key       = 'location'
+    key       = 'location',
+    index     = None
 )
 
 
