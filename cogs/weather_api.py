@@ -39,7 +39,7 @@ class Weather:
 
     @staticmethod
     def get_base_locations():
-        with open('resources/base_locations.json', 'r') as f:
+        with open('assets/base_locations.json', 'r') as f:
             return json.load(f)
 
 
@@ -57,13 +57,13 @@ class Weather:
         text = text.lower()
 
         if any([i in text for i in ['rain', 'drizzle']]):
-            fp = r'resources/rain.png'
+            fp = r'assets/rain.png'
         elif any([i in text for i in ['sunny', 'clear']]):
-            fp = r'resources/sunny.png'
+            fp = r'assets/sunny.png'
         elif any([i in text for i in ['cloudy', 'overcast']]):
-            fp = r'resources/cloudy.png'
+            fp = r'assets/cloudy.png'
         elif any([i in text for i in ['mist', 'fog']]):
-            fp = r'resources/fog.png'
+            fp = r'assets/fog.png'
         else:
             return None
         
