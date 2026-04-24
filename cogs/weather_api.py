@@ -1,6 +1,7 @@
 import json
 import httpx
 import streamlit as st
+import pandas as pd
 from datetime import datetime
 import base64
 
@@ -50,20 +51,25 @@ class Weather:
             return  "data:image/png;base64," + encoded.decode("utf-8")
 
 
-    def get_bg_image(self, text: str = None):
-        if not text:
-            text = self.current.get('condition').get('text')
+    def get_bg_image(self, hour: dict = None):
+        if not hour:
+            hour = self.current
 
-        text = text.lower()
+        text = hour.get('condition').get('text').lower()
 
         if any([i in text for i in ['rain', 'drizzle']]):
             fp = r'assets/rain.png'
         elif any([i in text for i in ['sunny', 'clear']]):
-            fp = r'assets/sunny.png'
+            if hour.get('is_day'):
+                fp = r'assets/dayclear.png'
+            else :
+                fp = r'assets/nightclear.png'
         elif any([i in text for i in ['cloudy', 'overcast']]):
             fp = r'assets/cloudy.png'
         elif any([i in text for i in ['mist', 'fog']]):
             fp = r'assets/fog.png'
+        elif 'thunder' in text:
+            fp = r'assets/thunder.png'
         else:
             return None
         
@@ -73,8 +79,16 @@ class Weather:
     def get_hourly_bg_images(self):
         l = []
         for i in self.hourly:
-            l.append(self.get_bg_image(i.get('condition').get('text')))
+            l.append(self.get_bg_image(i))
         return l
+    
+
+    def hourly_df_generator(self):
+        df = pd.DataFrame(self.hourly, columns=['time', 'temp_c', "feelslike_c", 'humidity'])
+        df['time'] = df['time'].str[-5:-3].astype(int)
+        df.columns = ['Hour', 'Temperature (°C)', 'Feels Like (°C)', 'Humidity']
+        return df
+
 
 
 if __name__ == '__main__':

@@ -1,9 +1,9 @@
 import streamlit as st
 import streamlit_card
 from cogs.weather_api import Weather
-from datetime import datetime, timedelta
+import streamlit_extras.dataframe_explorer as df_explorer
 
-st.set_page_config(page_title='Weather Lens', layout='centered')
+st.set_page_config(page_title='Weather Lens', layout='wide')
 st.title('🌦️ Weather Lens | Forecast at a Glance')
 st.subheader('In Development')
 
@@ -15,10 +15,6 @@ def load_weather():
 
 weather : Weather = st.session_state.get('weather_data')
 
-
-# left, right = st.columns([2, 1])
-
-# with left :
 location = st.selectbox(
     label='Select Location',
     label_visibility='collapsed',
@@ -40,51 +36,20 @@ if weather:
     else:
         st.success('Location successfully fetched.')
 
-# with right:
-if weather:
-    streamlit_card.card(
-        title  = f"{round(weather.current.get('temp_c'))}°C",
-        text   = f"{weather.location.get('name')}, {weather.location.get('region')}, {weather.location.get('country')}",
-        image  = weather.get_bg_image(),
-        styles = {
-            'card' : {
-                'height' : '400px',
-                'width' : '100%'
-            },
-            'title' : {
-                'font-size' : 60
-            },
-            'text' : {
-                'font-size' : 30
-            }
-        }
-    )
-
-st.divider()
-
-if weather:
-    st.subheader('Hourly Weather : ')
-
-    hour = st.select_slider(
-        label = 'Select Hour : ',
-        options = [f'{i} : 00' for i in range(24)],
-        label_visibility = 'collapsed',
-        key = 'selected_hour'
-    )
-
-    if sh := st.session_state.get('selected_hour'):
-        sh = int(sh[:2])
-        sh_temp = weather.hourly[sh]
-        hourly_weather_bg = weather.get_hourly_bg_images()
-
+    
+    left, right = st.columns(2)
+    with left:
         streamlit_card.card(
-            title  = f"{round(sh_temp.get('temp_c'))}°C",
-            text   = f"{weather.location.get('name')}, {weather.location.get('region')}, {weather.location.get('country')}",
-            image  = hourly_weather_bg[sh],
+            title  = f"{round(weather.current.get('temp_c'))}°C",
+            text   = [
+                f"{weather.location.get('name')}, {weather.location.get('region')}, {weather.location.get('country')}",
+                f"{weather.current.get('last_updated')}"
+            ],
+            image  = weather.get_bg_image(),
             styles = {
                 'card' : {
                     'height' : '400px',
-                    'width' : '100%'
+                    'width' : '100%',
                 },
                 'title' : {
                     'font-size' : 60
@@ -95,4 +60,10 @@ if weather:
             }
         )
 
-st.divider()
+
+    with right:
+        st.subheader('Hourly Weather : ')
+        df = df_explorer.dataframe_explorer(weather.hourly_df_generator(), case=False)
+        st.dataframe(df, hide_index=True)  
+
+    st.divider()
