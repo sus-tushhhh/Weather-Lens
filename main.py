@@ -1,7 +1,8 @@
 import streamlit as st
 import streamlit_card
 from cogs.weather_api import Weather
-import streamlit_extras.dataframe_explorer as df_explorer
+from streamlit_extras.dataframe_explorer import dataframe_explorer
+from streamlit_extras.chart_container import chart_container
 
 st.set_page_config(page_title='Weather Lens', layout='wide')
 st.title('🌦️ Weather Lens | Forecast at a Glance')
@@ -27,43 +28,51 @@ location = st.selectbox(
 )
 
 if weather:
-    if not weather.get_response():
+    if weather.get_response():
+        st.success('Location successfully fetched.')
+
+
+        left, right = st.columns(2)
+        with left:
+            print(weather)
+            streamlit_card.card(
+                title  = f"{round(weather.current.get('temp_c'))}°C",
+                text   = [
+                    f"{weather.location.get('name')}, {weather.location.get('region')}, {weather.location.get('country')}",
+                    f"{weather.current.get('last_updated')}"
+                ],
+                image  = weather.get_bg_image(),
+                styles = {
+                    'card' : {
+                        'height' : '400px',
+                        'width' : '100%',
+                        'margin' : '0px'
+                    },
+                    'title' : {
+                        'font-size' : 60
+                    },
+                    'text' : {
+                        'font-size' : 30
+                    }
+                }
+            )
+
+
+        with right:
+            with chart_container(weather.hourly_df_generator()):
+                st.line_chart(weather.hourly_df_generator().loc[:, ['Temperature (°C)']],
+                            x_label = 'Time (in 24-hour format)',
+                            y_label = 'Temperature (°C)'
+                )
+        
+        st.divider()
+
+    else:
         st.error('''Location not found please add state and/or country with it.
                 \nUse format : <city> <state> [country]
                 \nExample : 
                 \n\t- Bengalore Karnataka 
                 \n\t- Bengalore Karnataka India''')
-    else:
-        st.success('Location successfully fetched.')
-
     
-    left, right = st.columns(2)
-    with left:
-        streamlit_card.card(
-            title  = f"{round(weather.current.get('temp_c'))}°C",
-            text   = [
-                f"{weather.location.get('name')}, {weather.location.get('region')}, {weather.location.get('country')}",
-                f"{weather.current.get('last_updated')}"
-            ],
-            image  = weather.get_bg_image(),
-            styles = {
-                'card' : {
-                    'height' : '400px',
-                    'width' : '100%',
-                },
-                'title' : {
-                    'font-size' : 60
-                },
-                'text' : {
-                    'font-size' : 30
-                }
-            }
-        )
 
 
-    with right:
-        st.subheader('Hourly Weather : ')
-        df = df_explorer.dataframe_explorer(weather.hourly_df_generator(), case=False)
-        st.dataframe(df, hide_index=True)  
-
-    st.divider()
