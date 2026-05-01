@@ -68,7 +68,6 @@ if weather:
                                 x_label = 'Time (in 24-hour format)',
                                 y_label = 'Temperature (°C)',
                                 color   = ['Blue', 'Red'],
-                                use_container_width = True
                     )
         
         st.divider()
@@ -77,9 +76,9 @@ if weather:
             grid = stx_grid(3, 3, 3, vertical_align='center')
 
             logos = [
-                ['assets/logos/min_temp.png', 'assets\logos\current_temp.png', 'assets\logos\max_temp.png'],
-                ['assets/logos/humidity.png', 'assets\logos\wind_speed.png', 'assets\logos\chances_of_rain.png'],
-                ['assets/logos/min_temp.png', 'assets\logos\current_temp.png', 'assets\logos\max_temp.png']
+                [r'assets/logos/min_temp.png', r'assets\logos\current_temp.png', r'assets\logos\max_temp.png'],
+                [r'assets/logos/humidity.png', r'assets\logos\wind_speed.png', r'assets\logos\chances_of_rain.png'],
+                [r'assets/logos/min_temp.png', r'assets\logos\current_temp.png', r'assets\logos\max_temp.png']
             ]
             
             texts = [
