@@ -63,23 +63,23 @@ class Weather:
         text = hour.get('condition').get('text').lower()
 
         if any([i in text for i in ['rain', 'drizzle']]):
-            fp = r'assets/rain.png'
+            fp = r'assets/card_bg/rain.png'
         elif any([i in text for i in ['sunny', 'clear']]):
             if hour.get('is_day'):
-                fp = r'assets/dayclear.png'
+                fp = r'assets/card_bg/dayclear.png'
             else :
-                fp = r'assets/nightclear.png'
+                fp = r'assets/card_bg/nightclear.png'
         elif any([i in text for i in ['cloudy', 'overcast']]):
-            fp = r'assets/cloudy.png'
+            fp = r'assets/card_bg/cloudy.png'
         elif any([i in text for i in ['mist', 'fog']]):
-            fp = r'assets/fog.png'
+            fp = r'assets/card_bg/fog.png'
         elif 'thunder' in text:
-            fp = r'assets/thunder.png'
+            fp = r'assets/card_bg/thunder.png'
         elif 'snow' in text:
             if hour.get('is_day'):
-                fp = r'assets/daysnowy.png'
+                fp = r'assets/card_bg/daysnowy.png'
             else :
-                fp = r'assets/nightsnowy.png'
+                fp = r'assets/card_bg/nightsnowy.png'
         else:
             return None
         
@@ -102,6 +102,10 @@ class Weather:
             tomorrow_df = (self.tomorrow.hourly_df_generator()).rename(columns={'Today' : 'Tomorrow'})
             df = df.merge(tomorrow_df.loc[:, ['Hour', 'Tomorrow']], on='Hour') 
         return df
+    
+    
+    def daily_rain_percentage(self):
+        return f"{self.forecastday.get('day').get('daily_chance_of_rain')}%"
 
 
 

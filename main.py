@@ -1,8 +1,9 @@
 import streamlit as st
 import streamlit_card
 from cogs.weather_api import Weather
-from streamlit_extras.dataframe_explorer import dataframe_explorer
-from streamlit_extras.chart_container import chart_container
+from streamlit_extras.chart_container import chart_container as stx_chart_container
+from streamlit_extras.grid import grid as stx_grid
+from PIL import Image
 
 st.set_page_config(page_title='Weather Lens', layout='wide')
 st.title('🌦️ Weather Lens | Forecast at a Glance')
@@ -44,7 +45,7 @@ if weather:
                     image  = weather.get_bg_image(),
                     styles = {
                         'card' : {
-                            'height' : '400px',
+                            'height' : '410px',
                             'width' : '100%',
                             'margin' : '0px',
                             'transform' : 'none !important',
@@ -62,13 +63,40 @@ if weather:
 
         with right:
            with st.container(border=True, height=450, vertical_alignment='center'):
-                with chart_container(weather.hourly_df_generator()):
+                with stx_chart_container(weather.hourly_df_generator()):
                     st.line_chart(weather.hourly_df_generator().loc[:, ['Today', 'Tomorrow']],
                                 x_label = 'Time (in 24-hour format)',
-                                y_label = 'Temperature (°C)'
+                                y_label = 'Temperature (°C)',
+                                color   = ['Blue', 'Red'],
+                                use_container_width = True
                     )
         
         st.divider()
+
+        with st.container():
+            grid = stx_grid(3, 3, 3, vertical_align='center')
+
+            logos = [
+                ['assets/logos/min_temp.png', 'assets\logos\current_temp.png', 'assets\logos\max_temp.png'],
+                ['assets/logos/humidity.png', 'assets\logos\wind_speed.png', 'assets\logos\chances_of_rain.png'],
+                ['assets/logos/min_temp.png', 'assets\logos\current_temp.png', 'assets\logos\max_temp.png']
+            ]
+            
+            texts = [
+                ['Min :', 'Current :', 'Max :'],
+                ['Humidity :', 'Wind Speed :', 'Rain Chances :'],
+                ['Sunrise :', 'Wind Speed :', 'Sunset :']
+            ]
+
+            for l_row, t_row in zip(logos, texts) :
+                for l_item, t_item in zip(l_row, t_row):
+                    with grid.container(border=True):
+                        logo, text = st.columns([1, 5], vertical_alignment='center')
+                        with logo:
+                            logo = Image.open(l_item).resize((75, 75))
+                            st.image(logo)
+                        with text:
+                            st.header(t_item)
 
     else:
         st.error('''Location not found please add state and/or country with it.
