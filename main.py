@@ -76,9 +76,9 @@ if weather:
             grid = stx_grid(3, 3, 3, vertical_align='center')
 
             logos = [
-                [r'assets/logos/min_temp.png', r'assets\logos\current_temp.png', r'assets\logos\max_temp.png'],
-                [r'assets/logos/humidity.png', r'assets\logos\wind_speed.png', r'assets\logos\chances_of_rain.png'],
-                [r'assets/logos/min_temp.png', r'assets\logos\current_temp.png', r'assets\logos\max_temp.png']
+                [r'assets/logos/min_temp.png', r'assets/logos/current_temp.png', r'assets/logos/max_temp.png'],
+                [r'assets/logos/humidity.png', r'assets/logos/wind_speed.png', r'assets/logos/chances_of_rain.png'],
+                [r'assets/logos/min_temp.png', r'assets/logos/current_temp.png', r'assets/logos/max_temp.png']
             ]
             
             texts = [
