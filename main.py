@@ -34,36 +34,39 @@ if weather:
 
         left, right = st.columns(2)
         with left:
-            print(weather)
-            streamlit_card.card(
-                title  = f"{round(weather.current.get('temp_c'))}°C",
-                text   = [
-                    f"{weather.location.get('name')}, {weather.location.get('region')}, {weather.location.get('country')}",
-                    f"{weather.current.get('last_updated')}"
-                ],
-                image  = weather.get_bg_image(),
-                styles = {
-                    'card' : {
-                        'height' : '400px',
-                        'width' : '100%',
-                        'margin' : '0px'
-                    },
-                    'title' : {
-                        'font-size' : 60
-                    },
-                    'text' : {
-                        'font-size' : 30
+            with st.container(border=True, height=450, vertical_alignment='center'):
+                streamlit_card.card(
+                    title  = f"{round(weather.current.get('temp_c'))}°C",
+                    text   = [
+                        f"{weather.location.get('name')}, {weather.location.get('region')}, {weather.location.get('country')}",
+                        f"{weather.current.get('last_updated')}"
+                    ],
+                    image  = weather.get_bg_image(),
+                    styles = {
+                        'card' : {
+                            'height' : '400px',
+                            'width' : '100%',
+                            'margin' : '0px',
+                            'transform' : 'none !important',
+                            'transition' : 'none !important'
+                        },
+                        'title' : {
+                            'font-size' : 60
+                        },
+                        'text' : {
+                            'font-size' : 30
+                        }
                     }
-                }
-            )
+                )
 
 
         with right:
-            with chart_container(weather.hourly_df_generator()):
-                st.line_chart(weather.hourly_df_generator().loc[:, ['Today', 'Tomorrow']],
-                            x_label = 'Time (in 24-hour format)',
-                            y_label = 'Temperature (°C)'
-                )
+           with st.container(border=True, height=450, vertical_alignment='center'):
+                with chart_container(weather.hourly_df_generator()):
+                    st.line_chart(weather.hourly_df_generator().loc[:, ['Today', 'Tomorrow']],
+                                x_label = 'Time (in 24-hour format)',
+                                y_label = 'Temperature (°C)'
+                    )
         
         st.divider()
 
