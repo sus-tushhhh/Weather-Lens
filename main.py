@@ -92,7 +92,7 @@ if weather:
                     with grid.container(border=True):
                         logo, text = st.columns([1, 5], vertical_alignment='center')
                         with logo:
-                            logo = Image.open(l_item).resize((75, 75))
+                            logo = Image.open(l_item)
                             st.image(logo)
                         with text:
                             st.header(t_item)
