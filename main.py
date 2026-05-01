@@ -60,7 +60,7 @@ if weather:
 
         with right:
             with chart_container(weather.hourly_df_generator()):
-                st.line_chart(weather.hourly_df_generator().loc[:, ['Temperature (°C)']],
+                st.line_chart(weather.hourly_df_generator().loc[:, ['Today', 'Tomorrow']],
                             x_label = 'Time (in 24-hour format)',
                             y_label = 'Temperature (°C)'
                 )

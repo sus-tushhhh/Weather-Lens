@@ -2,15 +2,17 @@ import json
 import httpx
 import streamlit as st
 import pandas as pd
-from datetime import datetime
+from datetime import datetime, timedelta
 import base64
 
 class Weather:
-    def __init__(self, query:str):
-        self.url = "http://api.weatherapi.com/v1/forecast.json"
+    def __init__(self, query:str, date:datetime = datetime.now().date(), day:str = 'today'):
+        self.day    = day
+        self.url    = "http://api.weatherapi.com/v1/forecast.json"
+        self.query  = query
         self.params = {
             'key' : st.secrets.weather_app.api_key,
-            'dt'  : datetime.now().date(),
+            'dt'  : date,
             'q'   : query 
         }
         
@@ -29,6 +31,9 @@ class Weather:
                 self.today       : dict = self.forecastday.get('day')
                 self.astro       : dict = self.forecastday.get('astro')
                 self.hourly      : list[dict] = self.forecastday.get('hour')
+                if self.day == 'today':
+                    self.tomorrow   : Weather = Weather(self.query, (datetime.now() + timedelta(days=1)).date(), day='tomorrow')
+                    self.tomorrow.get_response()
                 return True
                 
         except httpx.ConnectTimeout as e:
@@ -70,6 +75,11 @@ class Weather:
             fp = r'assets/fog.png'
         elif 'thunder' in text:
             fp = r'assets/thunder.png'
+        elif 'snow' in text:
+            if hour.get('is_day'):
+                fp = r'assets/daysnowy.png'
+            else :
+                fp = r'assets/nightsnowy.png'
         else:
             return None
         
@@ -86,7 +96,11 @@ class Weather:
     def hourly_df_generator(self):
         df = pd.DataFrame(self.hourly, columns=['time', 'temp_c', "feelslike_c", 'humidity'])
         df['time'] = df['time'].str[-5:-3].astype(int)
-        df.columns = ['Hour', 'Temperature (°C)', 'Feels Like (°C)', 'Humidity']
+        df.columns = ['Hour', 'Today', 'Feels Like', 'Humidity']
+        
+        if self.day == 'today':
+            tomorrow_df = (self.tomorrow.hourly_df_generator()).rename(columns={'Today' : 'Tomorrow'})
+            df = df.merge(tomorrow_df.loc[:, ['Hour', 'Tomorrow']], on='Hour') 
         return df
 
 
