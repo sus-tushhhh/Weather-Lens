@@ -11,7 +11,10 @@ st.subheader('In Development')
 
 def load_weather():
     location : str = st.session_state.get('location')
-    weather = Weather(location.replace(',', ' ').lower())
+    if location == 'Detect Location':
+        weather = Weather('auto:ip')
+    else:
+        weather = Weather(location.replace(',', ' ').lower())
     st.session_state['weather_data'] = weather
 
 
@@ -73,26 +76,26 @@ if weather:
         st.divider()
 
         with st.container():
-            grid = stx_grid(3, 3, 3, vertical_align='center')
+            grid = stx_grid(2, 3, 2, vertical_align='center')
 
             logos = [
-                [r'assets/logos/min_temp.png', r'assets/logos/current_temp.png', r'assets/logos/max_temp.png'],
+                [r'assets/logos/min_temp.png',r'assets/logos/max_temp.png'],
                 [r'assets/logos/humidity.png', r'assets/logos/wind_speed.png', r'assets/logos/chances_of_rain.png'],
-                [r'assets/logos/min_temp.png', r'assets/logos/current_temp.png', r'assets/logos/max_temp.png']
+                [r'assets/logos/sunrise.png', r'assets/logos/sunset.png']
             ]
-            
+            today = weather.today
             texts = [
-                ['Min :', 'Current :', 'Max :'],
-                ['Humidity :', 'Wind Speed :', 'Rain Chances :'],
-                ['Sunrise :', 'Wind Speed :', 'Sunset :']
+                [f'Min : {today.get("mintemp_c")}°C', f'Max : {today.get("maxtemp_c")}°C'],
+                [f'Humidity : {weather.current.get("humidity")}%', f'Wind : {weather.current.get("wind_kph")} km/ph', f'Rain Chances : {today.get("daily_chance_of_rain")}%'],
+                [f'Sunrise : {weather.astro.get("sunrise")}', f'Sunset : {weather.astro.get("sunset")}']
             ]
 
             for l_row, t_row in zip(logos, texts) :
                 for l_item, t_item in zip(l_row, t_row):
                     with grid.container(border=True):
-                        logo, text = st.columns([1, 5], vertical_alignment='center')
+                        logo, text = st.columns([1, 7], vertical_alignment='center')
                         with logo:
-                            logo = Image.open(l_item)
+                            logo = Image.open(l_item).resize((75, 75))
                             st.image(logo)
                         with text:
                             st.header(t_item)

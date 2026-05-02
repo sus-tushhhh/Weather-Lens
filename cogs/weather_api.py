@@ -11,9 +11,9 @@ class Weather:
         self.url    = "http://api.weatherapi.com/v1/forecast.json"
         self.query  = query
         self.params = {
-            'key' : st.secrets.weather_app.api_key,
-            'dt'  : date,
-            'q'   : query 
+            'key'  : st.secrets.weather_app.api_key,
+            'dt'   : date,
+            'q'    : query,
         }
         
 
