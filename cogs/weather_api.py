@@ -47,6 +47,11 @@ class Weather:
     def get_base_locations():
         with open('assets/base_locations.json', 'r') as f:
             return json.load(f)
+    
+    @staticmethod
+    def convert_12_to_24_hour_format(time: str):
+        time = datetime.strptime(time, '%I:%M %p')
+        return time.strftime('%H:%M')
 
 
     def __get_path_of_bg(self, fp: str):
@@ -106,6 +111,7 @@ class Weather:
     
     def daily_rain_percentage(self):
         return f"{self.forecastday.get('day').get('daily_chance_of_rain')}%"
+    
 
 
 

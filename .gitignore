@@ -1,5 +1,6 @@
 __pychache__/
-.streamlit/
+.streamlit/secrets.toml
+.streamlit/config.toml
 .devcontainer/
 .vscode/
 .testing/

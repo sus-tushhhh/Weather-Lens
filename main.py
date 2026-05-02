@@ -11,7 +11,7 @@ st.subheader('In Development')
 
 def load_weather():
     location : str = st.session_state.get('location')
-    if location == 'Detect Location':
+    if location in 'Detect Location':
         weather = Weather('auto:ip')
     else:
         weather = Weather(location.replace(',', ' ').lower())
@@ -85,9 +85,19 @@ if weather:
             ]
             today = weather.today
             texts = [
-                [f'Min : {today.get("mintemp_c")}°C', f'Max : {today.get("maxtemp_c")}°C'],
-                [f'Humidity : {weather.current.get("humidity")}%', f'Wind : {weather.current.get("wind_kph")} km/ph', f'Rain Chances : {today.get("daily_chance_of_rain")}%'],
-                [f'Sunrise : {weather.astro.get("sunrise")}', f'Sunset : {weather.astro.get("sunset")}']
+                [
+                    ['Min :', f':green[{today.get("mintemp_c")}°C]'], 
+                    ['Max :', f':red[{today.get("maxtemp_c")}°C]'],
+                ],
+                [
+                    ['Humidity :', f':blue[{weather.current.get("humidity")}%]'], 
+                    ['Wind :', f':violet[{weather.current.get("wind_kph")} km/ph]'], 
+                    ['Rain :', f':blue[{today.get("daily_chance_of_rain")}%]']
+                ],
+                [
+                    ['Sunrise :', f':orange[{weather.convert_12_to_24_hour_format(weather.astro.get("sunrise"))}]'], 
+                    ['Sunset :', f':orange[{weather.convert_12_to_24_hour_format(weather.astro.get("sunset"))}]'],
+                ]
             ]
 
             for l_row, t_row in zip(logos, texts) :
@@ -96,9 +106,9 @@ if weather:
                         logo, text = st.columns([1, 7], vertical_alignment='center')
                         with logo:
                             logo = Image.open(l_item).resize((75, 75))
-                            st.image(logo)
+                            st.image(logo, width=75)
                         with text:
-                            st.header(t_item)
+                            st.write(f"### **:gray[{t_item[0]}]** {t_item[1]}")
 
     else:
         st.error('''Location not found please add state and/or country with it.
