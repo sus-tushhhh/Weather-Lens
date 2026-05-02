@@ -58,7 +58,8 @@ if weather:
                             'font-size' : 60
                         },
                         'text' : {
-                            'font-size' : 30
+                            'font-size' : 30,
+                            'color'     : '#9c9d9f'
                         }
                     }
                 )
@@ -102,7 +103,7 @@ if weather:
 
             for l_row, t_row in zip(logos, texts) :
                 for l_item, t_item in zip(l_row, t_row):
-                    with grid.container(border=True):
+                    with grid.container(border=True, horizontal=True):
                         logo, text = st.columns([1, 7], vertical_alignment='center')
                         with logo:
                             logo = Image.open(l_item).resize((75, 75))
