@@ -8,7 +8,7 @@ import base64
 class Weather:
     def __init__(self, query:str, date:datetime = datetime.now().date(), day:str = 'today'):
         self.day    = day
-        self.url    = "http://api.weatherapi.com/v1/forecast.json"
+        self.url    = f"http://api.weatherapi.com/v1/forecast.json"
         self.query  = query
         self.params = {
             'key'  : st.secrets.weather_app.api_key,
@@ -34,6 +34,10 @@ class Weather:
                 if self.day == 'today':
                     self.tomorrow   : Weather = Weather(self.query, (datetime.now() + timedelta(days=1)).date(), day='tomorrow')
                     self.tomorrow.get_response()
+
+                    self.yesterday   : Weather = Weather(self.query, (datetime.now() - timedelta(days=1)).date(), day='yesterday')
+                    self.yesterday.get_response()
+
                 return True
                 
         except httpx.ConnectTimeout as e:
@@ -52,6 +56,33 @@ class Weather:
     def convert_12_to_24_hour_format(time: str):
         time = datetime.strptime(time, '%I:%M %p')
         return time.strftime('%H:%M')
+    
+    @staticmethod
+    def get_forecast_text(weather: Weather):
+        day = weather.today
+        return [
+            [
+                ['Min :', f':green[{round(day.get("mintemp_c"))}°C]'], 
+                ['Max :', f':red[{round(day.get("maxtemp_c"))}°C]'],
+            ],
+            [
+                ['Humidity :', f':blue[{day.get("avghumidity")}%]'],  
+                ['Rain :', f':blue[{day.get("daily_chance_of_rain")}%]']
+            ],
+            [
+                ['Max Wind :', f':violet[{day.get("maxwind_kph")} km/ph]']
+            ]
+        ]
+    
+    @staticmethod
+    def get_astro_text(weather: Weather):
+        day = weather.today
+        return [
+            [
+                ['Sunrise :', f':orange[{Weather.convert_12_to_24_hour_format(weather.astro.get("sunrise"))}]'], 
+                ['Sunset :', f':orange[{Weather.convert_12_to_24_hour_format(weather.astro.get("sunset"))}]'],
+            ]
+        ]
 
 
     def __get_path_of_bg(self, fp: str):
@@ -105,12 +136,11 @@ class Weather:
         
         if self.day == 'today':
             tomorrow_df = (self.tomorrow.hourly_df_generator()).rename(columns={'Today' : 'Tomorrow'})
-            df = df.merge(tomorrow_df.loc[:, ['Hour', 'Tomorrow']], on='Hour') 
+            df = df.merge(tomorrow_df.loc[:, ['Hour', 'Tomorrow']], on='Hour')
+
+            yesterday_df = (self.yesterday.hourly_df_generator()).rename(columns={'Today' : 'Yesterday'})
+            df = df.merge(yesterday_df.loc[:, ['Hour', 'Yesterday']], on='Hour') 
         return df
-    
-    
-    def daily_rain_percentage(self):
-        return f"{self.forecastday.get('day').get('daily_chance_of_rain')}%"
     
 
 
@@ -118,5 +148,4 @@ class Weather:
 if __name__ == '__main__':
     x = Weather("Delhi")
     x.get_response()
-    print(x.current.get('condition').get('text'))
-    print(x.get_bg_image())
+    print(x.yesterday.today)

@@ -3,6 +3,7 @@ import streamlit_card
 from cogs.weather_api import Weather
 from streamlit_extras.chart_container import chart_container as stx_chart_container
 from streamlit_extras.grid import grid as stx_grid
+from streamlit_extras.metric_cards import *
 from PIL import Image
 
 st.set_page_config(page_title='Weather Lens', layout='wide')
@@ -68,48 +69,58 @@ if weather:
         with right:
            with st.container(border=True, height=450, vertical_alignment='center'):
                 with stx_chart_container(weather.hourly_df_generator()):
-                    st.line_chart(weather.hourly_df_generator().loc[:, ['Today', 'Tomorrow']],
+                    st.line_chart(weather.hourly_df_generator().loc[:, ['Yesterday', 'Today', 'Tomorrow']],
                                 x_label = 'Time (in 24-hour format)',
                                 y_label = 'Temperature (°C)',
-                                color   = ['Blue', 'Red'],
+                                color   = ['#7C3AED', '#EC4899', '#FACC15'],
                     )
-        
-        st.divider()
 
-        with st.container():
-            grid = stx_grid(2, 3, 2, vertical_align='center')
 
-            logos = [
-                [r'assets/logos/min_temp.png',r'assets/logos/max_temp.png'],
-                [r'assets/logos/humidity.png', r'assets/logos/wind_speed.png', r'assets/logos/chances_of_rain.png'],
-                [r'assets/logos/sunrise.png', r'assets/logos/sunset.png']
-            ]
-            today = weather.today
-            texts = [
+        sections = [
+            (
+                "Forecast :",
                 [
-                    ['Min :', f':green[{today.get("mintemp_c")}°C]'], 
-                    ['Max :', f':red[{today.get("maxtemp_c")}°C]'],
+                    [r'assets/logos/min_temp.png', r'assets/logos/max_temp.png'],
+                    [r'assets/logos/humidity.png', r'assets/logos/chances_of_rain.png'],
+                    [r'assets/logos/wind_speed.png']
                 ],
+                Weather.get_forecast_text
+            ),
+            (
+                "Astrology :",
                 [
-                    ['Humidity :', f':blue[{weather.current.get("humidity")}%]'], 
-                    ['Wind :', f':violet[{weather.current.get("wind_kph")} km/ph]'], 
-                    ['Rain :', f':blue[{today.get("daily_chance_of_rain")}%]']
+                    [r'assets/logos/sunrise.png', r'assets/logos/sunset.png']
                 ],
-                [
-                    ['Sunrise :', f':orange[{weather.convert_12_to_24_hour_format(weather.astro.get("sunrise"))}]'], 
-                    ['Sunset :', f':orange[{weather.convert_12_to_24_hour_format(weather.astro.get("sunset"))}]'],
-                ]
-            ]
+                Weather.get_astro_text
+            )
+        ]
 
-            for l_row, t_row in zip(logos, texts) :
-                for l_item, t_item in zip(l_row, t_row):
-                    with grid.container(border=True, horizontal=True):
-                        logo, text = st.columns([1, 7], vertical_alignment='center')
-                        with logo:
-                            logo = Image.open(l_item).resize((75, 75))
-                            st.image(logo, width=75)
-                        with text:
-                            st.write(f"### **:gray[{t_item[0]}]** {t_item[1]}")
+        days = [
+            ("Yesterday", weather.yesterday),
+            ("Today", weather),
+            ("Tomorrow", weather.tomorrow)
+        ]
+
+        for title, logos, data_func in sections:
+            st.title(title)
+
+            cols = st.columns(3, border=True)
+
+            for col, (subtitle, data) in zip(cols, days):
+                with col:
+                    st.subheader(f"{subtitle} :")
+                    grid = stx_grid(2, 2, 2, 2, vertical_align='center')
+
+                    for l_row, t_row in zip(logos, data_func(data)):
+                        for l_item, t_item in zip(l_row, t_row):
+                            with grid.container(border=True):
+                                c1, c2 = st.columns([1, 2], vertical_alignment='center')
+                                c1.image(Image.open(l_item), width=75)
+                                c2.metric(
+                                    label=f"**:gray[{t_item[0]}]**",
+                                    value=f"{t_item[1]}"
+                                )
+            
 
     else:
         st.error('''Location not found please add state and/or country with it.
