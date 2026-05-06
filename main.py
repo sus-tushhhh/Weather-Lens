@@ -8,7 +8,6 @@ from PIL import Image
 
 st.set_page_config(page_title='Weather Lens', layout='wide')
 st.title('🌦️ Weather Lens | Forecast at a Glance')
-st.subheader('In Development')
 
 def load_weather():
     location : str = st.session_state.get('location')
