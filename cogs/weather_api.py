@@ -81,6 +81,8 @@ class Weather:
             [
                 ['Sunrise :', f':orange[{Weather.convert_12_to_24_hour_format(weather.astro.get("sunrise"))}]'], 
                 ['Sunset :', f':orange[{Weather.convert_12_to_24_hour_format(weather.astro.get("sunset"))}]'],
+                ['Moonrise :', f':violet[{Weather.convert_12_to_24_hour_format(weather.astro.get("moonrise"))}]'],
+                ['Moonset :', f':violet[{Weather.convert_12_to_24_hour_format(weather.astro.get("moonset"))}]']
             ]
         ]
 

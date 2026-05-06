@@ -88,7 +88,9 @@ if weather:
             (
                 "Astrology :",
                 [
-                    [r'assets/logos/sunrise.png', r'assets/logos/sunset.png']
+                    [r'assets/logos/sunrise.png', r'assets/logos/sunset.png'],
+                    [r'assets/logos/moonrise.png', r'assets/logos/moonset.png']
+
                 ],
                 Weather.get_astro_text
             )
@@ -108,7 +110,7 @@ if weather:
             for col, (subtitle, data) in zip(cols, days):
                 with col:
                     st.subheader(f"{subtitle} :")
-                    grid = stx_grid(2, 2, 2, 2, vertical_align='center')
+                    grid = stx_grid(2, 2, 2, 2, 2, vertical_align='center')
 
                     for l_row, t_row in zip(logos, data_func(data)):
                         for l_item, t_item in zip(l_row, t_row):
