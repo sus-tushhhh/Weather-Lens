@@ -19,6 +19,13 @@ A visually rich weather dashboard built with **Streamlit** that presents **Yeste
 
 ---
 
+## 🌐 Live Preview
+
+🚀 Experience the app live:  
+👉 https://weatherlens-sus-tushhhh.streamlit.app/
+
+---
+
 ## 🧭 Features
 
 ### 📍 Location Based
