@@ -1,92 +1,81 @@
-Weather Lens
+<div align="center">
 
-Weather Lens is a Streamlit-based weather forecasting web app that provides clean visual insights for yesterday, today, and tomorrow, along with interactive charts.
+# 🌦️ Weather Lens
 
-Features
+### _See weather beyond just numbers_
 
-- Weather data for:
-    - Yesterday
-    - Today
-    - Tomorrow
+A sleek weather forecasting web app built with **Streamlit** that transforms raw weather data into clean visual insights for **Yesterday, Today, and Tomorrow**.
 
-- Visual charts for:
-    - Temperature trends
-    - Humidity
-    - Wind speed
-    - Rain probability
+</div>
 
-- Clean dark-themed UI built with Streamlit
-- Secure API key handling using Streamlit Secrets
-- Fast and lightweight interface
+---
 
-Tech Stack
+## ✨ Overview
 
-- Frontend & Backend: Streamlit
-- Language: Python
-- Libraries:
-    - Pandas
-    - Matplotlib
-    - Requests
+Weather Lens is designed to make weather tracking more intuitive and visually engaging.
 
-API Key Setup (Important)
+Instead of just displaying plain weather statistics, it presents meaningful comparisons through charts and a modern dark-themed interface, helping users quickly understand changing weather patterns.
 
-This project uses Streamlit Secrets to securely store the API key.
+---
 
-Step 1: Create secrets file
+## 🚀 What It Offers
 
-.streamlit/secrets.toml
+### 📅 Smart Forecast Timeline
 
-Step 2: Add your API key
+Track weather conditions across:
 
-API_KEY = "your_api_key_here"
+☀️ **Yesterday**  
+🌤️ **Today**  
+🌙 **Tomorrow**
 
-Installation & Running
+---
 
-Clone the repository
+### 📊 Visual Analytics
 
+Interactive charts for:
+
+🌡️ Temperature Trends  
+💧 Humidity Levels  
+🌬️ Wind Speed  
+🌧️ Rain Probability
+
+---
+
+### 🎨 Modern Interface
+
+✔ Dark-themed clean UI  
+✔ Minimal and intuitive layout  
+✔ Smooth data presentation
+
+---
+
+### 🔐 Secure Configuration
+
+Uses **Streamlit Secrets** to safely manage API keys without exposing sensitive credentials.
+
+---
+
+## 🛠 Built With
+
+<div align="center">
+
+| Technology     | Purpose                |
+| -------------- | ---------------------- |
+| **Python**     | Core Logic             |
+| **Streamlit**  | Web Interface          |
+| **Pandas**     | Data Processing        |
+| **Matplotlib** | Charts & Visualization |
+| **Requests**   | API Communication      |
+
+</div>
+
+---
+
+## ⚙️ Setup Guide
+
+### 1️⃣ Clone the Repository
+
+```bash
 git clone https://github.com/sus-tushhhh/Weather-Lens.git
 cd Weather-Lens
-
-Install dependencies
-
-pip install -r requirements.txt
-
-Run the app
-
-streamlit run app.py
-
-How It Works
-
-- Fetches weather data from an external API
-- Processes data for yesterday, today, and tomorrow
-- Displays structured information using Streamlit
-- Visualizes trends using charts for better understanding
-
-Project Structure
-
-Weather-Lens/
-│── assets/ # Icons and images
-│── app.py # Main Streamlit app
-│── requirements.txt # Dependencies
-│── .streamlit/
-│ └── secrets.toml # API key (not pushed to GitHub)
-
-Future Improvements
-
-- Auto location detection
-- Better mobile responsiveness
-- More advanced analytics
-- Multi-city comparison
-
-Contributing
-
-Feel free to fork and improve the project.
-
-License
-
-MIT License
-
-Author
-
-Tushant
-GitHub: https://github.com/sus-tushhhh
+```
