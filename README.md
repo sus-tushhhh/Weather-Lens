@@ -10,17 +10,6 @@ A visually rich weather dashboard built with **Streamlit** that presents **Yeste
 
 ---
 
-## ✨ Preview
-
-![App Screenshot](assets/preview.png)
-
-> 📌 Add your screenshot in `assets/preview.png` (use the image you shared)
-
----
-
-## 🚀 What Makes It Different?
-
-Most weather apps show raw data.  
 **Weather Lens focuses on clarity, comparison, and visual storytelling.**
 
 - 📊 Compare weather across **3 timelines**
