@@ -91,3 +91,22 @@ For each day:
 git clone https://github.com/sus-tushhhh/Weather-Lens.git
 cd Weather-Lens
 ```
+
+### 2️⃣ Create secrets file
+
+```
+create a file at .streamlit/secrets.toml
+```
+
+### 3️⃣ Enter API key ([WeatherAPI](https://www.weatherapi.com/))
+
+```bash
+[weather_app]
+api_key = "Your API key"
+```
+
+### 3️⃣ Save and run
+
+```bash
+pip install -r requirements.txt && streamlit run main.py
+```
