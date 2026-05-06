@@ -110,3 +110,9 @@ api_key = "Your API key"
 ```bash
 pip install -r requirements.txt && streamlit run main.py
 ```
+
+---
+
+## 👨‍💻 Developer
+
+**[Tushant](https://github.com/sus-tushhhh)**
