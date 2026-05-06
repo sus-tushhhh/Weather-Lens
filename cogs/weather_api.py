@@ -85,8 +85,8 @@ class Weather:
                 ['Sunset :', f':orange[{Weather.convert_12_to_24_hour_format(weather.astro.get("sunset"))}]']
             ],
             [
-                ['Moonrise :', f':violet[{Weather.convert_12_to_24_hour_format(moonrise) if moonrise != 'No moonrise' else 'No Moonrise'}]'],
-                ['Moonset :', f':violet[{Weather.convert_12_to_24_hour_format(moonset) if moonset != 'No moonset' else 'No Moonset'}]']
+                ['Moonrise :', f':blue[{Weather.convert_12_to_24_hour_format(moonrise) if moonrise != 'No moonrise' else 'No Moonrise'}]'],
+                ['Moonset :', f':blue[{Weather.convert_12_to_24_hour_format(moonset) if moonset != 'No moonset' else 'No Moonset'}]']
             ]
         ]
 
