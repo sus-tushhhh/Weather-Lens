@@ -32,10 +32,22 @@ Most weather apps show raw data.
 
 ## 🧭 Features
 
-### 📍 Location Detection
+### 📍 Location Based
 
-- Detects and fetches weather for your current location
+- Select any location of your choice
+- Add new locations
 - Displays location with timestamp
+
+---
+
+### 📊 Interactive Chart
+
+- Compare temperature trends across:
+    - Yesterday
+    - Today
+    - Tomorrow
+
+- Time-based (24-hour format) visualization
 
 ---
 
@@ -49,17 +61,6 @@ Each section includes:
 - 💧 Humidity
 - 🌧️ Rain Probability
 - 🌬️ Wind Speed
-
----
-
-### 📊 Interactive Chart
-
-- Compare temperature trends across:
-    - Yesterday
-    - Today
-    - Tomorrow
-
-- Time-based (24-hour format) visualization
 
 ---
 
@@ -89,7 +90,7 @@ For each day:
 - **Streamlit**
 - **Pandas**
 - **Matplotlib**
-- **Requests**
+- **Httpx**
 
 ---
 
