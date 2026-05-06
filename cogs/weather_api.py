@@ -77,14 +77,16 @@ class Weather:
     @staticmethod
     def get_astro_text(weather: Weather):
         day = weather.today
+        moonrise = weather.astro.get("moonrise")
+        moonset  = weather.astro.get("moonset")
         return [
             [
                 ['Sunrise :', f':orange[{Weather.convert_12_to_24_hour_format(weather.astro.get("sunrise"))}]'], 
                 ['Sunset :', f':orange[{Weather.convert_12_to_24_hour_format(weather.astro.get("sunset"))}]']
             ],
             [
-                ['Moonrise :', f':violet[{Weather.convert_12_to_24_hour_format(weather.astro.get("moonrise"))}]'],
-                ['Moonset :', f':violet[{Weather.convert_12_to_24_hour_format(weather.astro.get("moonset"))}]']
+                ['Moonrise :', f':violet[{Weather.convert_12_to_24_hour_format(moonrise) if moonrise != 'No moonrise' else 'No Moonrise'}]'],
+                ['Moonset :', f':violet[{Weather.convert_12_to_24_hour_format(moonset) if moonset != 'No moonset' else 'No Moonset'}]']
             ]
         ]
 
